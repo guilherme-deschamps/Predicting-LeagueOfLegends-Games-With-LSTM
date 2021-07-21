@@ -1,6 +1,9 @@
 # Predicting-LeagueOfLegends-Games-With-LSTM
 Trabalho implementado na disciplina de Inteligência Computacional, que busca identificar qual o time vencedor em uma partida de League of Legends baseado em informações limitadas.
 
+1. [Guilherme Rafael Deschamps](https://github.com/guilherme-deschamps)
+2. [Rodrigo Valle](https://github.com/rrrovalle)
+
 # Sumário
 1. [Problema](#problema)
 2. [Dataset](#dataset)
