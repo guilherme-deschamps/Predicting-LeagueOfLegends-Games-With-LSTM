@@ -1,15 +1,18 @@
 import matplotlib
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+from src.LstmModel import LstmModel
 
 matplotlib.use('TkAgg')
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from matplotlib.figure import Figure
 from tkinter import *
 import tkinter as tk
+from PIL import Image, ImageTk
 
 
 class LstmClass:
     def init(self, master=None):
         self.master = master
+        self.lstmModel = LstmModel()
         self.container1 = Frame(self.master)
         self.container1.grid()
         self.textoInicial = Label(self.container1, text="Selecione abaixo as entradas do modelo")
@@ -42,23 +45,28 @@ class LstmClass:
         self.button["text"] = "Executar"
         self.button["pady"] = 5
         self.button["width"] = 10
-        self.button.bind("<Button-1>", self.plot)
+        self.button.bind("<Button-1>", self.runLstm)
         self.button.grid(row=0)
 
-    def plot(self, event):
+    def runLstm(self, event):
+        entries = []
+
         for string_var in self.check_boxes:
             text = string_var.get()
             if text:
-                print(text)
+                entries.append(text)
 
-        f = Figure(figsize=(5, 5), dpi=100)
-        a = f.add_subplot(111)
-        a.plot([1, 2, 3, 4, 5, 6, 7, 8], [5, 6, 1, 3, 8, 9, 3, 5])
+        entries.append("winner")
+        self.lstmModel.init(entries)
 
-        canvas = FigureCanvasTkAgg(f, self.container3)
-        canvas.get_tk_widget().grid(pady=10, padx=10)
-        canvas.draw()
+        path = ("./fig.png")
+        image = Image.open(path)
+        photo = ImageTk.PhotoImage(image)
 
+        label = Label(self.container3, image=photo)
+        label.image = photo
+        label.grid(row=1)
+        # label.pack()
 
 janela = Tk()
 janela.title("Modelo preditivo - LSTM")
