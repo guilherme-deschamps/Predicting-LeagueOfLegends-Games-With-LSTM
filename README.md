@@ -69,14 +69,16 @@ yhat = model.predict(x_input)
 ```
 
 ## Resultados obtidos
+No geral foram aplicados testes para dois estados diferentes de recursos obtidos durante o jogo. Em um primeiro momento foi análisada a acurácia do modelo para prever qual dos dois times possuia mais chances de vitória com os recursos selecionados. Foram realizados testes com 50, 200, 300 e 500 épocas e as variavéis selecionadas foram "firstBaron e firstInhibitor" e "firstBlood, firstTower e FirstDragon". 
 
-Acurácia por épocas:
 ![image](https://user-images.githubusercontent.com/39662856/130400804-78386645-a06f-4865-9e68-22af7b7c94b2.png)
 
-Acurácia por steps e épocas:
+Conforme o gráfico apontou, a melhor acurácia obtida pelo modelo foi de 0,88 (88%) em 50 épocas, tanto para a primeira variável análisada quanto pela segunda. Com o aumento da qantidade de épocas, a acurácia tendeu a baixar, alcançando 0,69 (69%) com 500 épocas. 
+
+
+A fim de ajustar melhor o modelo proposto, uma análise da acurácia por steps (intervalo de tempo) foi também realizada, onde novamente um cenário com uma menor quantidade de steps (2) alcançou o melhor resultado (87%). Ao utilizar 3 steps a acurácia obtida foi de aproximadamente 85% enquanto o invervalo de 5 steps resultou em uma acurácia de 83%.
 
 ![image](https://user-images.githubusercontent.com/39662856/130401298-4fb74d70-e0a3-4820-a0e2-f9a7ad85855b.png)
-
 
 ## Instruções de uso
 Para utilizar do sistema elaborado é necessário apenas executar o arquivo lolstm.exe localizado na pasta src. Ao executá-lo será possível, através da interface elaborada, escolher quais são os fatores de influência obtidos durante a partida para que seja possível mapear as chances de vitória de uma equipe. Por fim, ao executar o algoritmo, a acurácia do modelo é atualizada para permitir ver a efiência dele e um gráfico é apresentado, mostrando os dados obtidos com relação as colunas selecionadas.
