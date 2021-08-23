@@ -1,4 +1,5 @@
 # Predicting-LeagueOfLegends-Games-With-LSTM
+![image](https://user-images.githubusercontent.com/39662856/130472117-40f1b108-b1ae-49aa-ba0d-93544e47ba59.png)
 Trabalho implementado na disciplina de Inteligência Computacional, que busca identificar qual o time vencedor em uma partida de League of Legends baseado em informações limitadas.
 
 1. [Guilherme Rafael Deschamps](https://github.com/guilherme-deschamps)
@@ -21,9 +22,9 @@ No jogo de League of Legends, você deve entrar em partidas separadas e desempen
 O dataset utilizado se encontra disponível em: [(LoL) League of Legends Ranked Games](https://www.kaggle.com/datasnaek/league-of-legends)
 
 ## Técnica
-Para implementação do modelo preditivo, será utilizada um modelo LSTM com uma única saída, baseado em séries multivariadas. Dados de série temporal multivariada significam que o modelo deverá observar, para cada intervalo de tempo, mais de uma varíavel. O que se encaixa perfeitamente na proposta elaborada.
+Para implementação do modelo preditivo será utilizada um modelo LSTM com uma única saída, baseado em séries multivariadas. Dados de série temporal multivariada significam que o modelo deverá observar, para cada intervalo de tempo, mais de uma varíavel, o que se encaixa perfeitamente na proposta elaborada.
 
-Um modelo LSTM precisa de contexto suficiente para aprender um mapeamento de uma sequência de entrada para um valor de saída. Os LSTMs podem suportar séries temporais de entrada paralela como variáveis ou recursos separados. Portanto, precisamos dividir os dados em amostras, mantendo a ordem das observações nas duas sequências de entrada. Sendo assim, o dataset foi tratado para mapear uma sequência conforme selecionado pelo usuário. Entretanto, apesar do dataset fornecer 61 variáveis, escolhemos utilizar apenas 8 delas, sendo:
+Um modelo LSTM precisa de contexto suficiente para aprender a mapear de uma sequência de entrada para um valor de saída. Os LSTMs podem suportar séries temporais de entrada paralela como variáveis ou recursos separados. Portanto, precisamos dividir os dados em amostras, mantendo a ordem das observações nas duas sequências de entrada. Sendo assim, o dataset foi tratado para mapear uma sequência selecionada pelo usuário através de uma interface. Entretanto, apesar do dataset fornecer 61 variáveis, escolhemos utilizar apenas 8 delas, sendo:
 
 ```
 gameDuration	firstBlood	firstTower	firstInhibitor	firstBaron	firstDragon	firstRiftHerald		winner
@@ -33,7 +34,7 @@ Após escolher quais seriam os inputs com as características para o treinamento
 
 ![image](https://user-images.githubusercontent.com/39662856/130373471-5fe6465e-8511-4ca1-81c3-81ac404ec54f.png)
 
-Uma vez que os dados estão prontos para serem tratados, podemos então definir uma função chamada *split_sequences()* que pegará um conjunto de dados como o definimos com linhas para intervalos de tempo e colunas para séries paralelas e amostras de retorno de entrada/saída. Ou seja, transformamos os dados em um array com o tamanho das features escolhidas (representando o x) e o vencedor da partida (y). O número de passos escolhido para cada intervalo de tempo foi de **n_steps = 3**, onde a cada três inputs, o output é informado. O resultado obtido foi o seguinte:
+Com os dados organizados, podemos então definir uma função *split_sequences()* responsável por pegar o conjunto de dados como o definimos com linhas para intervalos de tempo e colunas para séries paralelas e amostras de retorno de entrada/saída. Ou seja, transformamos os dados em um array com o tamanho das features escolhidas (representando o x) e o vencedor da partida (y). O número de passos escolhido para cada intervalo de tempo foi de **n_steps = 2**, onde a cada três inputs, o output é informado. O resultado obtido foi o seguinte:
 
 ```
 [[1 2 1 2 2 0]
@@ -47,7 +48,7 @@ Os dados foram então tratados, utilizando do método train_test_split da biblio
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.5, random_state=5)
 ````
 
-Com os dados devidamente ajustados, optamos por utilizar um Vanilla LSTM onde o número de passos de tempo e séries paralelas (recursos) são especificados para a camada de entrada por meio do argumento input_shape. Após alguns testes, a quantidade de neurônios escolhidos para a primeira camada LSTM foi de 50. A função de ativação adotada foi a ReLu, uma função de ativação não linear usada em redes neurais multicamadas ou redes neurais profundas, tendo como saída um valor máximo entre zero e o valor de entrada. Para o otimizador foi escolhido o Adam (utilizado para atualizar os pesos da rede iterativos com base nos dados de treinamento). Por fim, a função de perda aplicada foi a *Mean Square Error (MSE)*, que é representada pela soma das distâncias quadradas entre nossa variável-alvo e os valores previstos.
+Optamos por utilizar um modelo Vanilla LSTM onde o número de passos de tempo e séries paralelas (recursos) são especificados para a camada de entrada por meio do argumento input_shape. Após alguns testes, a quantidade de neurônios escolhidos para a primeira camada LSTM foi de 50. A função de ativação adotada foi a ReLu, uma função de ativação não linear usada em redes neurais multicamadas ou redes neurais profundas, tendo como saída um valor máximo entre zero e o valor de entrada. Para o otimizador foi escolhido o Adam (utilizado para atualizar os pesos da rede iterativos com base nos dados de treinamento). Por fim, a função de perda aplicada foi a *Mean Square Error (MSE)*, que é representada pela soma das distâncias quadradas entre nossa variável-alvo e os valores previstos.
 
 ```
 # Modelo utilizado
@@ -57,11 +58,11 @@ model.add(Dense(1))
 model.compile(optimizer='adam', loss='mse')
 ```
 
-Finalmente o modelo pode então ser treinado e testado. A quantidade de épocas utilizada para treinar o modelo foi de 200, uma vez que permitiram obter uma acurácia alta em um período de tempo para treinamento relativamente curto.
+O modelo pode então ser treinado e testado. A quantidade de épocas utilizada para treinar o modelo foi de 50, uma vez que permitiram obter uma acurácia alta em um período de tempo para treinamento relativamente curto.
 
 ```
 # Fit
-model.fit(X_train, y_train, epochs=100, verbose=0)
+model.fit(X_train, y_train, epochs=50, verbose=0)
 
 # Exemplo de predição
 x_input = array(X_test)
@@ -69,19 +70,34 @@ yhat = model.predict(x_input)
 ```
 
 ## Resultados obtidos
-No geral foram aplicados testes para dois estados diferentes de recursos obtidos durante o jogo. Em um primeiro momento foi análisada a acurácia do modelo para prever qual dos dois times possuia mais chances de vitória com os recursos selecionados. Foram realizados testes com 50, 200, 300 e 500 épocas e as variavéis selecionadas foram "firstBaron e firstInhibitor" e "firstBlood, firstTower e FirstDragon". 
 
 ![image](https://user-images.githubusercontent.com/39662856/130400804-78386645-a06f-4865-9e68-22af7b7c94b2.png)
 
-Conforme o gráfico apontou, a melhor acurácia obtida pelo modelo foi de 0,88 (88%) em 50 épocas, tanto para a primeira variável análisada quanto pela segunda. Com o aumento da qantidade de épocas, a acurácia tendeu a baixar, alcançando 0,69 (69%) com 500 épocas. 
 
 
-A fim de ajustar melhor o modelo proposto, uma análise da acurácia por steps (intervalo de tempo) foi também realizada, onde novamente um cenário com uma menor quantidade de steps (2) alcançou o melhor resultado (87%). Ao utilizar 3 steps a acurácia obtida foi de aproximadamente 85% enquanto o invervalo de 5 steps resultou em uma acurácia de 83%.
+<p align="center">
+  <img width="460" height="300" src="https://user-images.githubusercontent.com/39662856/130401298-4fb74d70-e0a3-4820-a0e2-f9a7ad85855b.png">
+</p> 
 
-![image](https://user-images.githubusercontent.com/39662856/130401298-4fb74d70-e0a3-4820-a0e2-f9a7ad85855b.png)
 
 ## Instruções de uso
-Para utilizar do sistema elaborado é necessário apenas executar o arquivo lolstm.exe localizado na pasta src. Ao executá-lo será possível, através da interface elaborada, escolher quais são os fatores de influência obtidos durante a partida para que seja possível mapear as chances de vitória de uma equipe. Por fim, ao executar o algoritmo, a acurácia do modelo é atualizada para permitir ver a efiência dele e um gráfico é apresentado, mostrando os dados obtidos com relação as colunas selecionadas.
+O software é acessado com a execução do arquivo *view.py*, utilizando da sua IDE de preferência. A execução do software elaborado foi testada tanto no pyCharm quanto no Visual Studio Code. Um arquivo requirements.txt foi gerado informando todas as dependências necessárias para a execução do projeto e treinamento do mesmo. 
+
+Para instalar as dependências necessárias, basta executar o seguinte comando no console: 
+
+````
+pip3 install -r requirements.txt
+````
+
+Após isso, é necessário verificar se o caminhho do arquivo está correto. Durante os testes encontramos dois possíveis cenários:
+
+```
+# Possíveis caminhos para acesso ao dataset
+pd.read_csv('../datasets/games.csv'
+
+pd.read_csv('datasets\games.csv'
+```
+Por fim, após a configuração do projeto, é possível então executar o arquivo view.py para acessar à interface contendo os fatores de influência durante uma partida. Ao selecionar quais características você deseja analisar, basta clicar no botão de executar para que o modelo seja treinado e a acurácia e um gráfico contendo os resultado seja apresentado.
 
 ## Vídeo
-O vídeo com a demonstração da aplicação realizada se encontra em: 
+O vídeo com a demonstração da aplicação realizada encontra-se disponível para acesso em 
