@@ -34,12 +34,11 @@ Após escolher quais seriam os inputs com as características para o treinamento
 
 ![image](https://user-images.githubusercontent.com/39662856/130373471-5fe6465e-8511-4ca1-81c3-81ac404ec54f.png)
 
-Com os dados organizados, podemos então definir uma função *split_sequences()* responsável por pegar o conjunto de dados como o definimos com linhas para intervalos de tempo e colunas para séries paralelas e amostras de retorno de entrada/saída. Ou seja, transformamos os dados em um array com o tamanho das features escolhidas (representando o x) e o vencedor da partida (y). O número de passos escolhido para cada intervalo de tempo foi de **n_steps = 2**, onde a cada três inputs, o output é informado. O resultado obtido foi o seguinte:
+Com os dados organizados, podemos então definir uma função *split_sequences()* responsável por pegar o conjunto de dados como o definimos com linhas para intervalos de tempo e colunas para séries paralelas e amostras de retorno de entrada/saída. Ou seja, transformamos os dados em um array com o tamanho das features escolhidas (representando o x) e o vencedor da partida (y). O número de passos escolhido para cada intervalo de tempo foi de **n_steps = 2**, onde a cada dois inputs, o output é informado. O resultado obtido foi o seguinte:
 
 ```
 [[1 2 1 2 2 0]
- [2 1 1 0 1 0]
- [2 1 1 0 2 0]] 1
+ [2 1 1 0 1 0]] 1
 ```
 
 Os dados foram então tratados, utilizando do método train_test_split da biblioteca sklearn, permitindo obter uma amostra de mesmo tamanho para fornecer ao modelo. As varíaveis carregadas foram X_Train, X_test, y_train e y_test, o que posteriormente também nos permite obter a acurácia do modelo e visualizar os dados.
