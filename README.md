@@ -70,6 +70,14 @@ yhat = model.predict(x_input)
 
 ## Resultados obtidos
 
+Acurácia por épocas:
+![image](https://user-images.githubusercontent.com/39662856/130400804-78386645-a06f-4865-9e68-22af7b7c94b2.png)
+
+Acurácia por steps e épocas:
+
+![image](https://user-images.githubusercontent.com/39662856/130401298-4fb74d70-e0a3-4820-a0e2-f9a7ad85855b.png)
+
+
 ## Instruções de uso
 Para utilizar do sistema elaborado é necessário apenas executar o arquivo lolstm.exe localizado na pasta src. Ao executá-lo será possível, através da interface elaborada, escolher quais são os fatores de influência obtidos durante a partida para que seja possível mapear as chances de vitória de uma equipe. Por fim, ao executar o algoritmo, a acurácia do modelo é atualizada para permitir ver a efiência dele e um gráfico é apresentado, mostrando os dados obtidos com relação as colunas selecionadas.
 
