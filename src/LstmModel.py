@@ -2,16 +2,15 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from numpy import array
-from keras.models import Sequential
-from keras.layers import LSTM
-from keras.layers import Dense
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM
+from tensorflow.keras.layers import Dense
 from sklearn.metrics import accuracy_score
 import plotly.graph_objects as go
 
-
 class LstmModel:
     def init(self, entries):
-        self.n_steps = 3
+        self.n_steps = 2
         self.neurons = 50
         self.loadData()
         self.setModelEntries(entries)
@@ -28,7 +27,7 @@ class LstmModel:
     def loadData(self):
         tamanho = 5000
 
-        for fatia in pd.read_csv('../datasets/games.csv', chunksize=tamanho):
+        for fatia in pd.read_csv('datasets\games.csv', chunksize=tamanho):
             self.data = fatia
 
     def setModelEntries(self, entries):
@@ -56,7 +55,7 @@ class LstmModel:
         self.model.compile(optimizer='adam', loss='mse')
 
     def fitAndPredict(self):
-        self.model.fit(self.X_train, self.y_train, epochs=100, verbose=0)
+        self.model.fit(self.X_train, self.y_train, epochs=50, verbose=0)
         x_input = array(self.X_test)
         # x_input = x_input.reshape((1, X_test, n_features))
         self.yhat = self.model.predict(x_input)

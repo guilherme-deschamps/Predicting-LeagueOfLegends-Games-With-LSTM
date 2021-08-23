@@ -1,13 +1,9 @@
-import matplotlib
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-from src.LstmModel import LstmModel
-
-matplotlib.use('TkAgg')
 from tkinter import *
 import tkinter as tk
 from PIL import Image, ImageTk
 
+from LstmModel import LstmModel
 
 class LstmClass:
     def init(self, master=None):
@@ -17,6 +13,11 @@ class LstmClass:
         self.container1.grid()
         self.textoInicial = Label(self.container1, text="Selecione abaixo as entradas do modelo")
         self.textoInicial.grid(row=0)
+        self.accLabel = Label(self.container1, text="Acurácia")
+        self.accLabel.grid(row=2)
+        self.accEntry = Entry(self.container1)
+        self.accEntry.insert(END,0)
+        self.accEntry.grid(row=3, column=0)
         self.initCheckboxes()
         self.initButton()
 
@@ -66,7 +67,9 @@ class LstmClass:
         label = Label(self.container3, image=photo)
         label.image = photo
         label.grid(row=1)
-        # label.pack()
+
+        # muda o valor do campo de acuráia
+        self.accEntry.insert(END,self.lstmModel.getAccuracy())
 
 janela = Tk()
 janela.title("Modelo preditivo - LSTM")
