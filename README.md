@@ -97,7 +97,7 @@ pd.read_csv('../datasets/games.csv'
 
 pd.read_csv('datasets\games.csv'
 ```
-Por fim, após a configuração do projeto, é possível então executar o arquivo view.py para acessar à interface contendo os fatores de influência durante uma partida. Ao selecionar quais características você deseja analisar, basta clicar no botão de executar para que o modelo seja treinado e a acurácia e um gráfico contendo os resultado seja apresentado.
+Por fim, após a configuração do projeto, é possível então executar o arquivo view.py para acessar à interface contendo os fatores de influência durante uma partida. Ao selecionar quais características você deseja analisar, basta clicar no botão de executar para que o modelo seja treinado e a interface apresente um gráfico contendo os resultados obtidos e a acurácia alcançada.
 
 ## Vídeo
 O vídeo com a demonstração da aplicação realizada encontra-se disponível para acesso em 
